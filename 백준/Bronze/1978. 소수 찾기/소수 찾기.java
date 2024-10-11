@@ -8,19 +8,17 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             int num = sc.nextInt();
-            if(isPrime(num)) {
+            if(num==2 ||num == 3) {
                 result++;
+                continue;
+            }
+
+            for (int j = 2; j <= num / 2; j++) {
+                if(num % j == 0) break;
+                if(j == (num/2)) result++;
             }
         }
         sc.nextLine();
         System.out.println(result);
-    }
-
-    public static boolean isPrime(int num) {
-        if (num < 2) return false;
-        for (int i = 2; i <= Math.sqrt(num); i++) {
-            if (num % i == 0) return false;
-        }
-        return true;
     }
 }
