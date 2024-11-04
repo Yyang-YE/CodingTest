@@ -10,9 +10,11 @@ public class Main {
         int M = 1234567891;
 
         long result = 0L;
+        long pow = 1;
 
         for (int i = 0; i < L; i++) {
-            result += (long) ((str.charAt(i)-96) * (Math.pow(r, i) % M)) % M;
+            result = (result + ((str.charAt(i) - 96) * pow) % M) % M;
+            pow = (pow * r) % M;
         }
         System.out.println(result % M);
     }
