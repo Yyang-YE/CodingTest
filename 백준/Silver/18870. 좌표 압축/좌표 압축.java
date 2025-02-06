@@ -3,28 +3,27 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int N = Integer.parseInt(br.readLine());
         int[] xs = new int[N];
+        int[] sorted = new int[N];
         Map<Integer, Integer> map = new HashMap<>();
-        TreeSet<Integer> set = new TreeSet<>();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            int num = Integer.parseInt(st.nextToken());
-            xs[i] = num;
-            set.add(num);
+            xs[i] = sorted[i] = Integer.parseInt(st.nextToken());
         }
 
+        Arrays.sort(sorted);
+
         int count = 0;
-        while(!set.isEmpty()) {
-            int minVal = set.first();
-            set.remove(minVal);
-            map.put(minVal, count);
-            count++;
+        for (int v : sorted) {
+            if(!map.containsKey(v)) {
+                map.put(v, count);
+                count++;
+            }
         }
 
         for (int i = 0; i < N; i++) {
