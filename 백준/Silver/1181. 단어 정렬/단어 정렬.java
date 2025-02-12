@@ -1,26 +1,28 @@
-import java.util.*;
-import java.util.stream.Collectors;
+import java.io.*;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int N = sc.nextInt();
-        sc.nextLine();
-
-        Set<String> words = new HashSet<>();
+        int N = Integer.parseInt(br.readLine());
+        String[] dictionary = new String[N];
         for (int i = 0; i < N; i++) {
-            String str = sc.nextLine();
-            words.add(str);
+            dictionary[i] = br.readLine();
         }
+        Arrays.sort(dictionary, Comparator.comparing(String::length).thenComparing(String::compareTo));
 
-        List<String> result = words.stream()
-            .sorted(Comparator.comparingInt(String::length) //문자열을 길이 기준으로 정렬
-            .thenComparing(Comparator.naturalOrder())) //위 기준이 동일하면 알파벳순으로 정렬
-            .collect(Collectors.toList());
-
-        for (String s : result) {
-            System.out.println(s);
+        String temp = "";
+        for (int i = 0; i < N; i++) {
+            if(!temp.equals(dictionary[i])) {
+                bw.write(dictionary[i] + "\n");
+            }
+            temp = dictionary[i];
         }
+        bw.flush();
+        br.close();
+        bw.close();
     }
 }
