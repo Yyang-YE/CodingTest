@@ -1,29 +1,28 @@
-import java.util.ArrayList;
+import java.io.*;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int N = Integer.parseInt(sc.nextLine());
-        List<Coord> coords = new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        Coord[] coords = new Coord[N];
 
         for (int i = 0; i < N; i++) {
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            sc.nextLine();
-            coords.add(new Coord(x, y));
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            coords[i] = new Coord(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
         }
 
-        List<Coord> result = coords.stream().sorted(Comparator.comparingInt((Coord c) -> c.x)
-            .thenComparingInt(c -> c.y)).collect(Collectors.toList());
+        Arrays.sort(coords, Comparator.comparing(Coord::getX).thenComparing(Coord::getY));
 
-        for (Coord c : result) {
-            System.out.println(c.x + " " + c.y);
+        for (int i = 0; i < N; i++) {
+            bw.write(coords[i].x + " " + coords[i].y + "\n");
         }
+
+        br.close();
+        bw.close();
     }
 
     public static class Coord {
@@ -33,6 +32,14 @@ public class Main {
         public Coord(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+
+        public int getX() {
+            return this.x;
+        }
+
+        public int getY() {
+            return this.y;
         }
     }
 }
