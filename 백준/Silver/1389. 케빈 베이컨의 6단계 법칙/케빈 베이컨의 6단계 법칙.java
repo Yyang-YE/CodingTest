@@ -35,7 +35,6 @@ public class Main {
         int unvisitedCount = N-1;
         isVisited = new boolean[N+1];
         isVisited[person] = true;
-        bacon[person] += unvisitedCount; // 모두 동일 - 계산 불필요..?
 
         Queue<Integer> queue = new LinkedList<>();
         queue.add(person);
