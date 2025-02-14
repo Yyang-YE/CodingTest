@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -14,7 +12,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             if(i == 0) {
                 glasses[i].oox = glasses[i].oxx = 0; // 본인 안마심
-                glasses[i].oxo = glasses[i].xoo = glasses[i].xxo = glasses[i].point;
+                glasses[i].oxo = glasses[i].xoo = glasses[i].xxo = glasses[i].point; // 본인 마심
             }
             else if(i == 1) {
                 glasses[i].oox = glasses[0].point; // 0만 마심
@@ -31,7 +29,7 @@ public class Main {
             }
             else {
                 glasses[i].oox = glasses[i-1].xoo;
-                glasses[i].oxo = Math.max(glasses[i-2].oxo, glasses[i-2].xoo) + glasses[i].point;
+                glasses[i].oxo = Math.max(glasses[i-2].xxo, Math.max(glasses[i-2].oxo, glasses[i-2].xoo)) + glasses[i].point;
                 glasses[i].xoo = Math.max(glasses[i-1].oxo, glasses[i-1].xxo) + glasses[i].point;
                 glasses[i].xxo = Math.max(glasses[i-2].oxx, glasses[i-2].oox) + glasses[i].point;
                 glasses[i].oxx = Math.max(glasses[i-2].oxo, Math.max(glasses[i-2].xxo, glasses[i-2].xoo));
@@ -39,8 +37,9 @@ public class Main {
         }
         System.out.println(glasses[n-1].getMax());
     }
-    
+
     public static class Glass {
+        // 포도주 양
         int point;
         // 전의 2개를 마심
         int oox = 0;
