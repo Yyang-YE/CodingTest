@@ -1,55 +1,31 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         StringBuilder sb = new StringBuilder();
-
-        int N = sc.nextInt();
-
-        // 1~N까지의 수를 넣기
-        // 요구되는 배열 확인
-        int[] numbers = new int[N];
-        int[] needArr = new int[N];
-
-        for (int i = 0; i < N; i++) {
-            numbers[i] = i + 1;
-            needArr[i] = sc.nextInt();
-        }
-
         Stack<Integer> stack = new Stack<>();
-        int numIndex = 0;
-        int arrIndex = 0;
-
-        while (arrIndex < needArr.length) {
-            if (numIndex < N && numbers[numIndex] < needArr[arrIndex]) {
-                stack.push(numbers[numIndex]);
-                sb.append("+").append("\n");
-                numIndex++;
-            } else if (numIndex < N && numbers[numIndex] == needArr[arrIndex]) {
-                stack.push(numbers[numIndex]);
-                sb.append("+").append("\n");
-                numIndex++;
-
+        int N = sc.nextInt();
+        int curNum = 1;
+        boolean flag = true;
+        for (int i = 0; i < N; i++) {
+            int num = sc.nextInt();
+            if(!flag) continue;
+            // 스택이 비거나 peek()가 num보다 작으 경우
+            if(stack.isEmpty() || stack.peek() <= num) {
+                for (int j = curNum; j <= num; j++) {
+                    stack.push(curNum++);
+                    sb.append("+\n");
+                }
                 stack.pop();
-                sb.append("-").append("\n");
-                arrIndex++;
-            } else if (!stack.isEmpty() && needArr[arrIndex] == stack.peek()) {
-                stack.pop();
-                sb.append("-").append("\n");
-                arrIndex++;
-            } else {
+                sb.append("-\n");
+            }  else { // peek()가 num보다 큰 경우
                 sb.setLength(0);
-                sb.append("NO").append("\n");
-                break;
+                sb.append("NO");
+                flag = false;
             }
         }
-
-        // 마지막 줄 바꿈 제거
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1);
-        }
-
         System.out.println(sb);
     }
 }
