@@ -45,6 +45,7 @@ public class Main {
 
     public static void dijkstra(int start) {
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparing(n -> n.cost));
+        boolean[] visited = new boolean[N+1];
 
         pq.offer(new Node(start, 0));
         distance[start] = 0;
@@ -52,18 +53,23 @@ public class Main {
         while(!pq.isEmpty()) {
             Node now = pq.poll();
 
-            // 현재 저장된 값이 최소면 아래 로직 불필요
-            if(distance[now.idx] < now.cost) continue;
+            // 선택 노드 방문 처리
+            if(visited[now.idx]) continue;
+            else visited[now.idx] = true;
 
             for (Node next : graph.get(now.idx)) {
-                long cost = distance[now.idx] + next.cost;
-                if(distance[next.idx] > cost) {
-                    answer[next.idx] = (long) (distance[now.idx] * 0.9) + next.cost;
-                    distance[next.idx] = cost;
-                    pq.offer(new Node(next.idx, cost));
-                } else if(distance[next.idx] == cost) {
-                    answer[next.idx] = Math.min(distance[next.idx], (long) (distance[now.idx] * 0.9) + next.cost);
-                }
+                long realCost = distance[now.idx] + next.cost;
+
+                // 미방문 && 새로운 distance가 최소인 경우(같아도 처리)
+                if(visited[next.idx] || distance[next.idx] < realCost) continue;
+
+                // 실제 거리(distance)는 같아도 감소한 거리값은 다를 수도 있음
+                // -> 같은 거리인 경우에도 업데이트 (savedCost는 항상 realCost보다 같거나 작으므로)
+                answer[next.idx] = (long) (distance[now.idx] * 0.9) + next.cost;
+
+                // 기존 경로 다익스트라 정보 갱신
+                distance[next.idx] = realCost;
+                pq.offer(new Node(next.idx, realCost));
             }
         }
     }
