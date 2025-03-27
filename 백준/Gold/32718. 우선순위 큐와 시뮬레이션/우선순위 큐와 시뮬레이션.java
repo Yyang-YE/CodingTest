@@ -26,28 +26,31 @@ public class Main {
         for (int i = 0; i < T; i++) {
             A = (A + Integer.parseInt(st.nextToken())) % K;
 
-            int ansIdx = -1;
-            int criterion = K - A; // 얘보다 작은 수 중 가장 큰 값 찾기
+            int answer = 0;
+            int criterion = K - A - 1; // 얘보다 작거나 같은 수 중 가장 큰 값 찾기
 
-            int ps = 0;
-            int pl = N-1;
+            // 가장 작은 값도 기준 넘으면 가장 큰 값이 정답이 됨
+            if(nums[0] > criterion) {
+                answer = (nums[N-1] + A) % K;
+            } else { // nums 중 criterion보다 작거나 같은 것은 무조건 존재
+                // 이분 탐색으로 기준보다 작거나 같은 것 중 가장 큰 값 찾기
+                int ps = 0;
+                int pl = N-1;
 
-            while(ps <= pl) {
-                int mid = (ps + pl) / 2;
+                while(ps <= pl) {
+                    int mid = (ps + pl) / 2;
 
-                if(nums[mid] < criterion) {
-                    ansIdx = mid;
-                    ps = mid + 1;
-                } else {
-                    pl = mid - 1;
+                    if(nums[mid] <= criterion) {
+                        answer = nums[mid] + A;
+                        ps = mid + 1;
+                    } else {
+                        pl = mid - 1;
+                    }
                 }
+                answer %= K;
             }
-
-            // 전부 기준보다 크거나 같다면, 제일 큰 수가 답
-            if(ansIdx == -1) ansIdx = N-1;
-
             // 정답 입력
-            sb.append((nums[ansIdx] + A) % K).append(" ");
+            sb.append(answer).append(" ");
         }
         System.out.println(sb);
     }
