@@ -1,59 +1,35 @@
 import java.io.*;
-import java.util.ArrayList;
 
 public class Main {
-    static int maxLen;
-    static ArrayList<Integer> answer;
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int T = Integer.parseInt(br.readLine());
-
         for (int tc = 0; tc < T; tc++) {
             int N = Integer.parseInt(br.readLine());
-            maxLen = 0;
-
-            // 2^n번 -> 포함 여부를 나타냄!!
-            for (int i = 0; i < (1 << N); i++) {
-                ArrayList<Integer> list = new ArrayList<>();
-                // j번째 수가 포함인지 확인
-                for (int j = 0; j < N; j++) {
-                    if((i & (1 << j)) != 0) {
-                        list.add(j+1);
-                    }
+            int s = 1;
+            int ans = 1;
+            int maxLen = 0;
+            while(s <= N) {
+                int e = Math.min(N, 3 * s - 1);
+                if(e-s+1 > maxLen) {
+                    maxLen = e - s + 1;
+                    ans = s;
                 }
-
-                if(!checkZero(list)) {
-                    answer = new ArrayList<>(list);
-                    maxLen = list.size();
-                }
+                s <<= 1;
             }
-
-            // 정답 입력
-            bw.write(maxLen + "\n");
-            for (Integer i : answer) {
-                bw.write(i + " ");
-            }
-            bw.write("\n");
+            print(ans, Math.min(N, 3 * ans - 1));
         }
-        bw.flush();
-        br.close();
+        br.close();;
         bw.close();
     }
 
-    public static boolean checkZero(ArrayList<Integer> list) {
-        // 더 큰 경우에만 실행
-        if(maxLen >= list.size()) return true;
-
-        // 조합별 조건 만족 확인
-        for (int i = 0; i < list.size()-2; i++) {
-            for (int j = i+1; j < list.size()-1; j++) {
-                if (list.contains(list.get(i) ^ list.get(j))) {
-                    return true; // 0 있다!
-                }
-            }
+    public static void print(int s, int e) throws IOException {
+        bw.write((e - s + 1) + "\n");
+        for (int i = s; i <= e; i++) {
+            bw.write(i + " ");
         }
-        return false;
+        bw.write("\n");
     }
 }
