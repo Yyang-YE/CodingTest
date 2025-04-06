@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -15,16 +13,7 @@ public class Main {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
-
-            int count = 0;
-            for (int x = 1; x <= a; x++) {
-                for (int y = 1; y <= b; y++) {
-                    for (int z = 1; z <= c; z++) {
-                        if(x % y == y % z && y % z == z % x) count++;
-                    }
-                }
-            }
-            sb.append(count).append("\n");
+            sb.append(Math.min(a, Math.min(b, c))).append("\n");
         }
         System.out.println(sb);
     }
