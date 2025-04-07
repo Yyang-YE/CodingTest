@@ -1,19 +1,15 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         long N = Long.parseLong(br.readLine());
 
-        // 101이면 100 -> 1000으로 반환
         long max = (Long.highestOneBit(N) << 1) - 1;
 
-        if(N == max) {
-            System.out.println(1 + "\n" + max);
-        } else {
-            System.out.println(2 + "\n" + (N ^ max) + " " + N);
-        }
+        if(N == max) sb.append(1).append("\n").append(max);
+        else sb.append(2).append("\n").append(N ^ max).append("\n").append(N);
+        System.out.println(sb);
     }
 }
