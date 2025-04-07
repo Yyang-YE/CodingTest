@@ -7,11 +7,8 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         long N = Long.parseLong(br.readLine());
 
-        long max = 1;
-        do {
-            max <<= 1;
-        } while (max <= N);
-        max -= 1;
+        // 101이면 100 -> 1000으로 반환
+        long max = (Long.highestOneBit(N) << 1) - 1;
 
         if(N == max) {
             System.out.println(1 + "\n" + max);
