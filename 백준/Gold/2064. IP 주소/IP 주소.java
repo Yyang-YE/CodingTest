@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -9,15 +8,16 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         StringTokenizer st;
-        int N = Integer.parseInt(br.readLine());
 
+        int N = Integer.parseInt(br.readLine());
         int maskLen = 32;
         int[] addr = new int[4];
+
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine(), ".");
             boolean isSame = true;
-            
-            // 초기 설정
+
+            // 초기 설정용
             if(i == 0) {
                 for (int j = 0; j < 4; j++) {
                     addr[j] = Integer.parseInt(st.nextToken());
@@ -57,19 +57,14 @@ public class Main {
             else sb.append("\n");
         }
 
-        // mask 정보 (전부 1로 바꾸기)
+        // mask 정보
         for (int i = 0; i < 4; i++) {
             if(maskLen >= 8) {
                 sb.append(255);
                 maskLen -= 8;
             } else {
-                int num = 128;
-                int res = 0;
-                while(maskLen-- > 0) {
-                    res += num;
-                    num /= 2;
-                }
-                sb.append(res);
+                sb.append(((1 << maskLen) - 1) << (8 - maskLen));
+                maskLen = 0;
             }
             if(i != 3) sb.append(".");
         }
