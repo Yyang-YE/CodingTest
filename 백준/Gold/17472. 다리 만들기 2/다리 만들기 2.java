@@ -46,13 +46,12 @@ public class Main {
         for (Coord c : bridge) {
             int len = 0;
 
-            // 여기서 시작접 찍고 비교하기
             while (true) {
                 c.x += xs[c.way];
                 c.y += ys[c.way];
                 if(!checkArrange(c.x, c.y)) break;
 
-                if(board[c.x][c.y] == 0) {
+                if(board[c.x][c.y] == 0) { // 바다
                     len++;
                 } else if(board[c.x][c.y] != c.landIdx && len > 1) { // 다른 섬을 만남
                     pq.offer(new Edge(c.landIdx * -1, board[c.x][c.y] * -1, len));
@@ -89,9 +88,7 @@ public class Main {
         Queue<Coord> queue = new LinkedList<>();
         queue.offer(start);
 
-        boolean[][] tmpVisited = new boolean[N][M];
         visited[start.x][start.y] = true;
-        tmpVisited[start.x][start.y] = true;
 
         while(!queue.isEmpty()) {
             Coord now = queue.poll();
@@ -100,11 +97,11 @@ public class Main {
             for (int i = 0; i < 4; i++) {
                 int nx = xs[i] + now.x;
                 int ny = ys[i] + now.y;
-                if(checkArrange(nx, ny) && !tmpVisited[nx][ny]) {
+
+                if(checkArrange(nx, ny) && !visited[nx][ny]) {
                     if(board[nx][ny] == 1) {
                         queue.offer(new Coord(nx, ny));
                         visited[nx][ny] = true;
-                        tmpVisited[nx][ny] = true;
                     } else { // 방향을 함께 저장
                         bridge.add(new Coord(now.x, now.y, idx, i));
                     }
@@ -116,10 +113,7 @@ public class Main {
     private static void union(int a, int b) {
         a = find(a);
         b = find(b);
-
-        if(a != b) {
-            root[b] = a;
-        }
+        if(a != b) root[b] = a;
     }
 
     private static int find(int idx) {
