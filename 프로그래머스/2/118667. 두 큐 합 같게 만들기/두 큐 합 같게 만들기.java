@@ -18,7 +18,7 @@ class Solution {
         if(total % 2 != 0) return -1;
         
         // 짝수면 탐색
-        int standard = (q1.size() + q2.size()) * 2;
+        int standard = q1.size() * 3; // 전부 q1로 이동 -> 전부 q2로 이동 (최악 고려)
         long target = total / 2;
         int answer = 0;
         
