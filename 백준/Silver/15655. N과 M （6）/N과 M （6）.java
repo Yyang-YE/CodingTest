@@ -8,7 +8,6 @@ public class Main {
     static int N, M;
     static int[] arr;
     static int[] nums;
-    static boolean[] visited;
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
@@ -19,7 +18,6 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         nums = new int[N];
-        visited = new boolean[N];
         arr = new int[M];
 
         st = new StringTokenizer(br.readLine());
@@ -42,12 +40,8 @@ public class Main {
         }
 
         for (int i = least; i < N; i++) {
-            if(!visited[i]) {
-                visited[i] = true;
-                arr[depth] = nums[i];
-                dfs(i + 1, depth + 1);
-                visited[i] = false;
-            }
+            arr[depth] = nums[i];
+            dfs(i + 1, depth + 1); // 다음 값 확인하기
          }
     }
 }
